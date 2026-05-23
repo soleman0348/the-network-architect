@@ -3,52 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { 
-            margin: 0; padding: 0; 
-            background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
-            color: #64ffda; font-family: 'Segoe UI', sans-serif;
-            display: flex; justify-content: center; align-items: center; height: 100vh;
-        }
-        .game-card { 
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
-            padding: 30px; border-radius: 20px; border: 1px solid #64ffda;
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2); text-align: center; width: 400px;
-        }
-        h1 { color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-        input { 
-            background: transparent; border: 1px solid #64ffda; color: white;
-            padding: 10px; width: 80%; border-radius: 5px; margin: 10px 0;
-        }
-        button { 
-            padding: 10px 20px; cursor: pointer; background: #64ffda; color: #0a192f;
-            border: none; border-radius: 5px; font-weight: bold;
-        }
+        body { margin: 0; background: radial-gradient(circle, #0a192f 0%, #020c1b 100%); color: #64ffda; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .game-card { background: rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; border: 1px solid #64ffda; text-align: center; width: 400px; }
+        h1 { color: #fff; }
+        input { background: transparent; border: 1px solid #64ffda; color: white; padding: 10px; width: 80%; margin: 10px 0; border-radius: 5px; }
+        button { padding: 10px 20px; cursor: pointer; background: #64ffda; color: #0a192f; border: none; border-radius: 5px; font-weight: bold; }
         #result { margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
-
 <div class="game-card">
     <h1>אתגר ה-Subnetting</h1>
-    <p>מהי כתובת ה-Broadcast של הרשת:<br><strong>192.168.1.0/26</strong>?</p>
-    <input type="text" id="answer" placeholder="הקלד כאן (למשל: 192.168.1.X)">
-    <br>
-    <button onclick="checkAnswer()">בדוק תשובה</button>
+    <p id="q-text">טוען שאלה...</p>
+    <input type="text" id="answer" placeholder="הקלד תשובה...">
+    <br><button onclick="checkAnswer()">בדוק תשובה</button>
     <div id="result"></div>
 </div>
 
 <script>
+    const questions = [
+        { q: "192.168.1.0/26", a: "192.168.1.63" },
+        { q: "10.0.0.0/24", a: "10.0.0.255" },
+        { q: "172.16.0.0/28", a: "172.16.0.15" }
+    ];
+    let currentQ = 0;
+
+    function loadQuestion() {
+        document.getElementById("q-text").innerHTML = "מהי כתובת ה-Broadcast של הרשת:<br><strong>" + questions[currentQ].q + "</strong>?";
+        document.getElementById("result").innerText = "";
+        document.getElementById("answer").value = "";
+    }
+
     function checkAnswer() {
         const userAns = document.getElementById("answer").value;
-        const res = document.getElementById("result");
-        if(userAns === "192.168.1.63") {
-            res.innerHTML = "✅ צדקת! הטווח הוא 192.168.1.0 - 192.168.1.63";
-            res.style.color = "#64ffda";
+        if(userAns === questions[currentQ].a) {
+            currentQ = (currentQ + 1) % questions.length;
+            document.getElementById("result").innerHTML = "✅ נכון! עובר לשאלה הבאה...";
+            setTimeout(loadQuestion, 1500);
         } else {
-            res.innerHTML = "❌ שגיאה בלוגיקה. נסה שוב.";
-            res.style.color = "#ff6b6b";
+            document.getElementById("result").innerText = "❌ טעות, נסה שוב.";
         }
     }
+    loadQuestion();
 </script>
 </body>
 </html>
