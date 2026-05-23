@@ -2,43 +2,53 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Subnet Master Game</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #f4f4f9; padding: 20px; }
-        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
-        input { padding: 10px; font-size: 16px; }
-        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+        body { 
+            margin: 0; padding: 0; 
+            background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%);
+            color: #64ffda; font-family: 'Segoe UI', sans-serif;
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+        }
+        .game-card { 
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 20px; border: 1px solid #64ffda;
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.2); text-align: center; width: 400px;
+        }
+        h1 { color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        input { 
+            background: transparent; border: 1px solid #64ffda; color: white;
+            padding: 10px; width: 80%; border-radius: 5px; margin: 10px 0;
+        }
+        button { 
+            padding: 10px 20px; cursor: pointer; background: #64ffda; color: #0a192f;
+            border: none; border-radius: 5px; font-weight: bold;
+        }
         #result { margin-top: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>אתגר ה-Subnetting</h1>
-        <p>מהי כתובת ה-Broadcast של הרשת: <strong id="question"></strong>?</p>
-        <input type="text" id="answer" placeholder="הקלד כאן...">
-        <button onclick="checkAnswer()">בדוק תשובה</button>
-        <div id="result"></div>
-    </div>
 
-    <script>
-        let currentBroadcast = "";
-        function generateTask() {
-            // דוגמה פשוטה - ניתן להרחיב ללוגיקה רנדומלית
-            document.getElementById("question").innerText = "192.168.1.0/26";
-            currentBroadcast = "192.168.1.63";
+<div class="game-card">
+    <h1>אתגר ה-Subnetting</h1>
+    <p>מהי כתובת ה-Broadcast של הרשת:<br><strong>192.168.1.0/26</strong>?</p>
+    <input type="text" id="answer" placeholder="הקלד כאן (למשל: 192.168.1.X)">
+    <br>
+    <button onclick="checkAnswer()">בדוק תשובה</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    function checkAnswer() {
+        const userAns = document.getElementById("answer").value;
+        const res = document.getElementById("result");
+        if(userAns === "192.168.1.63") {
+            res.innerHTML = "✅ צדקת! הטווח הוא 192.168.1.0 - 192.168.1.63";
+            res.style.color = "#64ffda";
+        } else {
+            res.innerHTML = "❌ שגיאה בלוגיקה. נסה שוב.";
+            res.style.color = "#ff6b6b";
         }
-        function checkAnswer() {
-            const userAns = document.getElementById("answer").value;
-            const res = document.getElementById("result");
-            if(userAns === currentBroadcast) {
-                res.innerHTML = "✅ נכון מאוד! הטווח הוא 192.168.1.0 עד 192.168.1.63";
-                res.style.color = "green";
-            } else {
-                res.innerHTML = "❌ לא מדויק. נסה שוב או בדוק את חישוב ה-Subnet Mask.";
-                res.style.color = "red";
-            }
-        }
-        generateTask();
-    </script>
+    }
+</script>
 </body>
 </html>
