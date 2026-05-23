@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Subnet Master Game</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #f4f4f9; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
+        input { padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 5px; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>אתגר ה-Subnetting</h1>
+        <p>מהי כתובת ה-Broadcast של הרשת: <strong id="question"></strong>?</p>
+        <input type="text" id="answer" placeholder="הקלד כאן...">
+        <button onclick="checkAnswer()">בדוק תשובה</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let currentBroadcast = "";
+        function generateTask() {
+            // דוגמה פשוטה - ניתן להרחיב ללוגיקה רנדומלית
+            document.getElementById("question").innerText = "192.168.1.0/26";
+            currentBroadcast = "192.168.1.63";
+        }
+        function checkAnswer() {
+            const userAns = document.getElementById("answer").value;
+            const res = document.getElementById("result");
+            if(userAns === currentBroadcast) {
+                res.innerHTML = "✅ נכון מאוד! הטווח הוא 192.168.1.0 עד 192.168.1.63";
+                res.style.color = "green";
+            } else {
+                res.innerHTML = "❌ לא מדויק. נסה שוב או בדוק את חישוב ה-Subnet Mask.";
+                res.style.color = "red";
+            }
+        }
+        generateTask();
+    </script>
+</body>
+</html>
